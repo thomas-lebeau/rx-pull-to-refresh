@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "eslint": "^4.5.0",
+    "eslint-config-prettier": "^2.3.0",
     "eslint-config-synacor": "^1.1.0",
     "if-env": "^1.0.0",
     "node-sass": "^4.5.3",
@@ -38,11 +39,7 @@
   "dependencies": {
     "array-shuffle": "^1.0.1",
     "date-fns": "^1.28.5",
-    "eslint-config-prettier": "^2.3.0",
     "preact": "^8.2.1",
-    "preact-compat": "^3.17.0",
-    "preact-router": "^2.5.7",
-    "rxjs": "^5.4.3",
-    "rxtween": "^1.0.0"
+    "rxjs": "^5.4.3"
   }
 }
