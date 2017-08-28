@@ -1,0 +1,109 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+.app {
+  height: 100%;
+  background-color: rgba(103, 58, 183, 0.2);
+}
+
+.header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 56px;
+  padding: 0;
+  background: #673ab7;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  color: #fff;
+
+  h1 {
+    margin: 0;
+    padding: 0 10px;
+    font-size: 24px;
+    font-weight: 400;
+    flex-grow: 1;
+  }
+  nav {
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+}
+
+.list {
+  margin: 0;
+  list-style: none;
+  background-color: #fff;
+  padding: 0;
+}
+
+.story {
+  padding: 10px;
+
+  small {
+    display: block;
+    margin-top: 20px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h3 {
+    margin-top: 0;
+  }
+
+  & + & {
+    border-top: 1px solid #eee;
+  }
+}
+
+.loader {
+  height: 56px;
+  text-align: center;
+
+  .animate {
+    animation: spin 1s infinite linear;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes appear {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
