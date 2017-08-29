@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-const Header = ({ title, children }) =>
+export const Header = ({ title, children }) =>
   <header class="header">
     <h1>
       {title}

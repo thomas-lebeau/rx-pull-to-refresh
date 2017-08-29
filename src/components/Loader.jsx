@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-const Loader = ({ isLoading }) =>
+export const Loader = ({ isLoading }) =>
   <div class="loader">
     {isLoading &&
       <svg
@@ -22,5 +22,3 @@ const Loader = ({ isLoading }) =>
         <path d="M2 0v5h-2l2.53 3 2.47-3h-2v-5h-1z" transform="translate(1)" />
       </svg>}
   </div>;
-
-export default Loader;

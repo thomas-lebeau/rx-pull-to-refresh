@@ -9,6 +9,7 @@ import data from './HNData.json';
 
 export class HNMockService extends HNService {
   lastLoadedIndex;
+  key = 'hn-cache-mocks';
   stories = shuffle(data);
 
   getNewStories() {

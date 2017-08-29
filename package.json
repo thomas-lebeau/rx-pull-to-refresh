@@ -24,6 +24,20 @@
         {
           "ignore": ["class"]
         }
+      ],
+      "react/sort-comp": [
+        2,
+        {
+          "order": [
+            "properties",
+            "constructor",
+            "static-methods",
+            "everything-else",
+            "/^(on|handle).+$/",
+            "lifecycle",
+            "render"
+          ]
+        }
       ]
     }
   },
@@ -39,6 +53,7 @@
   "dependencies": {
     "array-shuffle": "^1.0.1",
     "date-fns": "^1.28.5",
+    "decko": "^1.2.0",
     "preact": "^8.2.1",
     "rxjs": "^5.4.3"
   }

@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { bind } from 'decko';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -17,9 +18,9 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/repeat';
 
-import Header from './components/Header';
-import News from './components/News';
-import Loader from './components/Loader';
+import { Header } from './components/Header';
+import { News } from './components/News';
+import { Loader } from './components/Loader';
 import HNService from './services/HNService';
 
 export default class App extends Component {
@@ -62,8 +63,6 @@ export default class App extends Component {
     .switchMap(() => this.hnService.getNews())
     .do(this.loadComplete$);
 
-  refresh = () => this.requestLoad$.next();
-
   constructor() {
     super();
     this.state = {
@@ -71,6 +70,11 @@ export default class App extends Component {
       positionTranslate: `translate3d(0, ${this.maxPos}px, 0)`,
       isLoading: true,
     };
+  }
+
+  @bind
+  handleClick() {
+    this.requestLoad$.next();
   }
 
   componentDidMount() {
