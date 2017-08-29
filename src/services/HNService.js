@@ -18,7 +18,10 @@ export default class HNService {
     this.hasCache ? JSON.parse(localStorage[this.key]) : []
   );
   lastLoadedItem = this.hasCache
-    ? this.stories$.value.map(s => s.id).sort().reverse()[0]
+    ? this.stories$.value
+        .map(s => s.id)
+        .sort()
+        .reverse()[0]
     : 0;
 
   cache$ = Observable.of(this.stories$.value)
