@@ -1,0 +1,27 @@
+{
+  "extends": ["eslint-config-synacor", "prettier", "prettier/react"],
+  "rules": {
+    "jsx-a11y/href-no-hash": 0,
+    "import/prefer-default-export": 0,
+    "react/no-unknown-property": [
+      2,
+      {
+        "ignore": ["class"]
+      }
+    ],
+    "react/sort-comp": [
+      2,
+      {
+        "order": [
+          "properties",
+          "constructor",
+          "static-methods",
+          "everything-else",
+          "/^(on|handle).+$/",
+          "lifecycle",
+          "render"
+        ]
+      }
+    ]
+  }
+}
