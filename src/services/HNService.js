@@ -14,9 +14,11 @@ export default class HNService {
   initalLoad = 20; // number of items to retrive on first load
   key = 'hn-cache';
   hasCache = this.key in localStorage;
+
   stories$ = new BehaviorSubject(
     this.hasCache ? JSON.parse(localStorage[this.key]) : []
   );
+
   lastLoadedItem = this.hasCache
     ? this.stories$.value
         .map(s => s.id)

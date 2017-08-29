@@ -101,9 +101,7 @@ export default class App extends Component {
         <Header title="RxHN" />
         <div style={`transform: ${positionTranslate};`}>
           <Loader {...{ isLoading }} />
-          <ul class="list">
-            {news.map(item => <News {...item} />)}
-          </ul>
+          <ul class="list">{news.map(item => <News {...item} />)}</ul>
         </div>
       </div>
     );
