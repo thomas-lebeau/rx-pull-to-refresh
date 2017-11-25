@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "eslint src",
+    "test": "eslint src && bundlesize",
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build": "preact build",
     "serve": "preact build && preact serve",
@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "bundlesize": "^0.15.3",
     "eslint": "^4.5.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-synacor": "^1.1.0",
@@ -28,5 +29,19 @@
     "decko": "^1.2.0",
     "preact": "^8.2.5",
     "rxjs": "^5.4.3"
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./build/bundle.*.js",
+      "maxSize": "30 kB"
+    },
+    {
+      "path": "./build/polyfills.*.js",
+      "maxSize": "3 kB"
+    },
+    {
+      "path": "./build/sw.js",
+      "maxSize": "3 kB"
+    }
+  ]
 }
