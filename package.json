@@ -17,10 +17,10 @@
     "bundlesize": "^0.15.3",
     "eslint": "^4.5.0",
     "eslint-config-prettier": "^2.3.0",
-    "eslint-config-synacor": "^1.1.0",
+    "eslint-config-synacor": "^2.0.2",
     "if-env": "^1.0.0",
     "node-sass": "^4.5.3",
-    "preact-cli": "^1.4.1",
+    "preact-cli": "^2.1.0",
     "sass-loader": "^6.0.6"
   },
   "dependencies": {
