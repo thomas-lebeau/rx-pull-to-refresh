@@ -13,7 +13,7 @@ export default class HNService {
   version = 'v0';
   initalLoad = 20; // number of items to retrive on first load
   key = 'hn-cache';
-  hasCache = this.key in localStorage;
+  hasCache = typeof window === 'undefined' ? null : this.key in localStorage;
 
   stories$ = new BehaviorSubject(
     this.hasCache ? JSON.parse(localStorage[this.key]) : []
@@ -74,15 +74,15 @@ export default class HNService {
   }
 
   getNewStories() {
-    return fetch(
-      `${this.baseUrl}/${this.version}/newstories.json`
-    ).then(response => response.json());
+    return fetch(`${this.baseUrl}/${this.version}/newstories.json`).then(
+      response => response.json()
+    );
   }
 
   getItemById(id) {
-    return fetch(
-      `${this.baseUrl}/${this.version}/item/${id}.json`
-    ).then(response => response.json());
+    return fetch(`${this.baseUrl}/${this.version}/item/${id}.json`).then(
+      response => response.json()
+    );
   }
 
   updateStories(item) {
