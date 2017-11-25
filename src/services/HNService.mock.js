@@ -1,8 +1,8 @@
 import * as shuffle from 'array-shuffle';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/toPromise';
+import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operators/map';
+import { delay } from 'rxjs/operators/delay';
+import { toPromise } from 'rxjs/operators/toPromise';
 
 import HNService from './HNService';
 import data from './HNData.json';
@@ -21,20 +21,19 @@ export class HNMockService extends HNService {
 
     if (this.lastLoadedIndex < 0) this.lastLoadedIndex = 0;
 
-    return Observable.of(
+    return of(
       this.stories.slice(this.lastLoadedIndex).map(item => item.id)
-    )
-      .delay(200 + this.rand() * 100)
-      .toPromise();
+    ).pipe(delay(200 + this.rand() * 100), toPromise());
   }
 
   getItemById(id) {
     const time = Date.now() / 1000;
 
-    return Observable.of(this.stories.find(item => item.id === id))
-      .map(item => ({ ...item, time }))
-      .delay(200 + this.rand() * 100)
-      .toPromise();
+    return of(this.stories.find(item => item.id === id)).pipe(
+      map(item => ({ ...item, time })),
+      delay(200 + this.rand() * 100),
+      toPromise()
+    );
   }
 
   rand() {

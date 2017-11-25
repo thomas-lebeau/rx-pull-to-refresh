@@ -1,22 +1,20 @@
 import { h, Component } from 'preact';
 import { bind } from 'decko';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/defer';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/operator/repeat';
+import { of } from 'rxjs/observable/of';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { timer } from 'rxjs/observable/timer';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { repeat } from 'rxjs/operators/repeat';
+import { takeWhile } from 'rxjs/operators/takeWhile';
+import { tap } from 'rxjs/operators/tap';
+import { switchMap } from 'rxjs/operators/switchMap';
+import { map } from 'rxjs/operators/map';
+import { merge } from 'rxjs/operators/merge';
+import { startWith } from 'rxjs/operators/startWith';
+import { takeUntil } from 'rxjs/operators/takeUntil';
+import { concat } from 'rxjs/operators/concat';
 
 import { Header } from './components/Header';
 import { News } from './components/News';
@@ -30,38 +28,43 @@ export default class App extends Component {
   hnService = new HNService();
 
   subscription;
-  requestLoad$ = new Subject().do(() => this.isLoading$.next(true));
-  loadComplete$ = new Subject().do(() => this.isLoading$.next(false));
+  requestLoad$ = new Subject().pipe(tap(() => this.isLoading$.next(true)));
+  loadComplete$ = new Subject().pipe(tap(() => this.isLoading$.next(false)));
   isLoading$ = new BehaviorSubject(true);
 
-  touchstart$ = Observable.fromEvent(this.document, 'touchstart');
-  touchmove$ = Observable.fromEvent(this.document, 'touchmove');
-  touchend$ = Observable.fromEvent(this.document, 'touchend');
+  touchstart$ = fromEvent(this.document, 'touchstart');
+  touchmove$ = fromEvent(this.document, 'touchmove');
+  touchend$ = fromEvent(this.document, 'touchend');
 
-  endDrag$ = this.loadComplete$.switchMap(() => Observable.of(0));
+  endDrag$ = this.loadComplete$.pipe(switchMap(() => of(0)));
 
-  drag$ = this.touchstart$
-    .switchMap(start =>
-      this.touchmove$
-        .map(move => move.touches[0].pageY - start.touches[0].pageY)
-        .takeUntil(this.touchend$)
-        .concat(Observable.of(0))
-    )
-    .do(p => {
+  drag$ = this.touchstart$.pipe(
+    switchMap(start =>
+      this.touchmove$.pipe(
+        map(move => move.touches[0].pageY - start.touches[0].pageY),
+        takeUntil(this.touchend$),
+        concat(of(0))
+      )
+    ),
+    tap(p => {
       if (p >= this.maxPos) {
         this.requestLoad$.next();
       }
-    })
-    .takeWhile(p => p < this.maxPos)
-    .repeat();
+    }),
+    takeWhile(p => p < this.maxPos),
+    repeat()
+  );
 
-  position$ = this.drag$.merge(this.endDrag$).startWith(0);
-  positionTranslate$ = this.position$.map(p => `translate3d(0, ${p}px, 0)`);
-  updateNewsTrigger$ = Observable.timer(0).merge(this.requestLoad$);
+  position$ = this.drag$.pipe(merge(this.endDrag$), startWith(0));
+  positionTranslate$ = this.position$.pipe(
+    map(p => `translate3d(0, ${p}px, 0)`)
+  );
+  updateNewsTrigger$ = timer(0).pipe(merge(this.requestLoad$));
 
-  news$ = this.updateNewsTrigger$
-    .switchMap(() => this.hnService.getNews())
-    .do(this.loadComplete$);
+  news$ = this.updateNewsTrigger$.pipe(
+    switchMap(() => this.hnService.getNews()),
+    tap(this.loadComplete$)
+  );
 
   constructor() {
     super();
@@ -78,7 +81,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.subscription = Observable.combineLatest(
+    this.subscription = combineLatest(
       this.news$,
       this.positionTranslate$,
       this.isLoading$

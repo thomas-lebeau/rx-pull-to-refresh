@@ -1,12 +1,13 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/distinctUntilChanged';
+
+import { of } from 'rxjs/observable/of';
+import { fromPromise } from 'rxjs/observable/fromPromise';
+
+import { filter } from 'rxjs/operators/filter';
+import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
+import { concatMap } from 'rxjs/operators/concatMap';
+import { tap } from 'rxjs/operators/tap';
+import { merge } from 'rxjs/operators/merge';
 
 export default class HNService {
   baseUrl = 'https://hacker-news.firebaseio.com';
@@ -26,25 +27,25 @@ export default class HNService {
         .reverse()[0]
     : 0;
 
-  cache$ = Observable.of(this.stories$.value)
-    .filter(stories => stories.length > 0)
-    .distinctUntilChanged(
-      (a, b) => a.length === b.length && a[0].id === b[0].id
-    );
+  cache$ = of(this.stories$.value).pipe(
+    filter(stories => stories.length > 0),
+    distinctUntilChanged((a, b) => a.length === b.length && a[0].id === b[0].id)
+  );
 
   getNews() {
     let obs$;
     if (this.lastLoadedItem) {
-      obs$ = Observable.fromPromise(this.refresh());
+      obs$ = fromPromise(this.refresh());
     } else {
-      obs$ = Observable.fromPromise(this.init());
+      obs$ = fromPromise(this.init());
     }
 
-    const new$ = obs$
-      .concatMap(() => Observable.of(this.stories$.value))
-      .do(stories => this.cache(stories));
+    const new$ = obs$.pipe(
+      concatMap(() => of(this.stories$.value)),
+      tap(stories => this.cache(stories))
+    );
 
-    return this.cache$.merge(new$);
+    return this.cache$.pipe(merge(new$));
   }
 
   refresh() {
