@@ -14,10 +14,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "bundlesize": "^0.15.3",
+    "bundlesize": "^0.16.0",
     "eslint": "^4.5.0",
     "eslint-config-prettier": "^2.3.0",
-    "eslint-config-synacor": "^2.0.2",
+    "eslint-config-synacor": "^3.0.0",
     "if-env": "^1.0.0",
     "node-sass": "^4.5.3",
     "preact-cli": "^2.1.0",
