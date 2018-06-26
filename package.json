@@ -15,7 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "bundlesize": "^0.17.0",
-    "eslint": "^4.5.0",
+    "eslint": "^5.0.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-synacor": "^3.0.0",
     "if-env": "^1.0.0",
