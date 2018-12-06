@@ -27,7 +27,7 @@
     "array-shuffle": "^1.0.1",
     "date-fns": "^1.28.5",
     "decko": "^1.2.0",
-    "preact": "^8.2.5",
+    "preact": "^8.4.0",
     "rxjs": "^5.4.3"
   },
   "bundlesize": [
